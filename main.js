@@ -10,16 +10,20 @@ class Library {
     }
 
     addBook(title, author, read, not_read) {
-        const book = new Book(title, author, read, not_read);
+        const book = new Book();
+        book.title = title;
+        book.author = author;
+        book.read = read;
+        book.not_read = not_read;
         this.books.push(book);
     }
 
     displayBooks() {
-        const bookList = document.getElementById('book-lists');
-        bookList.innerHTML = '';
+        const bookList = document.getElementById("book-lists");
+        bookList.innerHTML = "";
 
         this.books.forEach((book) => {
-            const listItem = document.createElement('li');
+            const listItem = document.createElement("li");
             listItem.textContent = `Title: ${book.title}, Author: ${book.author}, Read: ${book.read}`;
             bookList.appendChild(listItem);
         });
@@ -27,28 +31,38 @@ class Library {
 }
 
 const myLibrary = new Library();
-const bookForm = document.getElementById('book_form');
+const bookForm = document.getElementById("book_form");
 
-bookForm.addEventListener('submit', function (event) {
+bookForm.addEventListener("submit", function (event) {
     event.preventDefault();
 
-    const titleInput = document.getElementById('title');
-    const authorInput = document.getElementById('author');
-    const readInput = document.getElementById('read');
-    const not_readInput = document.getElementById('not_read');
+    const titleInput = document.getElementById("title");
+    const authorInput = document.getElementById("author");
+    const readInput = document.getElementById("read");
+    const not_readInput = document.getElementById("not_read");
 
     const title = titleInput.value;
     const author = authorInput.value;
     const read = readInput;
     const not_read = not_readInput;
 
-    if (title && author) {
-        myLibrary.addBook(title, author, read, not_read);
-        myLibrary.displayBooks();
-        titleInput.value = '';
-        authorInput.value = '';
-        readInput.value = '';
-        not_readInput.value = '';
+    if (title !== "" && author !== "") {
+        if (read.checked === true || not_read.checked === true) {
+            myLibrary.addBook(title, author, read.checked, not_read.checked);
+            myLibrary.displayBooks();
+            titleInput.value = "";
+            authorInput.value = "";
+            readInput.value = "";
+            not_readInput.value = "";
+        } else {
+            alert("u need to add read or not read");
+        }
+    } else {
+        if (title == "") {
+            alert("title need to fill");
+        } else if (author == "") {
+            alert("author need to fill");
+        }
     }
 });
 
